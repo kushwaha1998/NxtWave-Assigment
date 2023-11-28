@@ -1,0 +1,53 @@
+# Python3 program to find k-th smallest sum
+
+from bisect import bisect_right
+
+def rank(sums, n, x):
+	# Initially rank is 0.
+	rank = 0
+	sumBeforeIthindex = 0
+	for i in range(n):
+		# Calculating the count of the subarray with starting at ith index
+		count = bisect_right(sums, sumBeforeIthindex + x)
+		
+		# Subtracting the subarrays before ith index.
+		count -= i
+		
+		# Adding the count to rank.
+		rank += count
+		sumBeforeIthindex = sums[i]
+	return rank
+
+def findKthSmallestSum(a, n, k):
+	# PrefixSum array.
+	sums = []
+
+	# Total Sum initially 0.
+	sum = 0
+	for i in range(n):
+		sum += a[i]  
+		sums.append(sum)
+
+	# Binary search on possible range i.e [0, total sum]
+	ans = 0
+	start = 0
+	end = sum
+	while start <= end:
+		mid = (start + end) // 2
+
+		# Calculating rank of the mid and comparing with K
+		if rank(sums, n, mid) >= k:
+			# If greater or equal store the answer
+			ans = mid
+			end = mid - 1
+		else:
+			start = mid + 1
+
+	return ans
+#Input
+a = list(map(int, input("Enter space-separated integers: ").split()))
+k = int(input("Enter k: "))
+n = int(input("Enter n: "))
+print(findKthSmallestSum(a, n, k))
+
+  
