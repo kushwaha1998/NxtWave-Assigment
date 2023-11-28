@@ -1,0 +1,26 @@
+def group_spare_parts(N, spare_parts):
+    # Create a dictionary to store spare parts grouped by their common numbers
+    grouped_parts = {}
+
+    # Group spare parts based on their common numbers
+    for part in spare_parts:
+        common_number = ''.join(filter(str.isdigit, part))
+        if common_number in grouped_parts:
+            grouped_parts[common_number].append(part)
+        else:
+            grouped_parts[common_number] = [part]
+
+    # Sort spare parts within each group and sort groups based on the numeric value
+    sorted_groups = sorted(grouped_parts.values(), key=lambda x: (int(''.join(filter(str.isdigit, x[0]))), x))
+
+    # Print the sorted list after grouping
+    print(sorted_groups)
+
+# Input the number N
+N = int(input("Enter the number of spare parts: "))
+
+# Input the list of codes on the spare parts
+spare_parts = input("Enter space-separated codes on the spare parts: ").split()
+
+# Call the function to group and print spare parts
+group_spare_parts(N, spare_parts)
