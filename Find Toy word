@@ -1,0 +1,42 @@
+def findtoywords(sequence):
+    words = []
+    length = len(sequence)
+    ans=""
+    #print(sequence[length-1 ::-1])
+    # Iterate through the sequence to find words
+    while sequence:
+        found = False
+        for i in range(1, length + 1):
+            # Check if the current substring is a palindrome
+            if sequence[:i] == sequence[-i:]:
+                # If it is a palindrome, add it to the list of words
+                
+                if(i == length):
+                    seq = "(" + sequence[:i]+")"
+                else:
+                    seq = "(" + sequence[:i]+")" +"(" + sequence[-i:]+")"
+                
+                middle_index = len(ans) // 2 
+                first_part = ans[:middle_index] 
+                second_part = ans[middle_index:]
+                # Update the remaining sequence for further iterations
+                ans=first_part+seq+second_part
+                
+                sequence = sequence[i:-i]
+                length = len(sequence)
+                found = True
+                break
+        
+        # If no palindrome word found, break the loop
+        if not found:
+            break
+
+    # return the words separated by parentheses
+    return ans
+
+# Input sequence from Charlie
+sequence_S = input("Enter the sequence of toy names: ")
+
+# Call the function to find and print the toy words
+result = findtoywords(sequence_S)
+print(result)
